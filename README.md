@@ -1,6 +1,6 @@
 # Decentralized Identifier (DID) with XRP Wallet Project
 
-![Project Logo/Icon](https://github.com/Anele0722/-Decentralized-Identity-with-XRP-Wallet/blob/master/src/fingerprint-solid.svg)
+![Project Logo/Icon](fingerprint-solid.svg)
 
 A project that integrates Decentralized Identifiers (DIDs) with XRP Wallets on the XRP Ledger to provide secure identity management for students.
 
