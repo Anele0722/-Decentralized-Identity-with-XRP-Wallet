@@ -1,6 +1,6 @@
 # Decentralized Identifier (DID) with XRP Wallet Project
 
-![Project Logo/Icon](project-logo.png)
+![Project Logo/Icon](logo.png)
 
 A project that integrates Decentralized Identifiers (DIDs) with XRP Wallets on the XRP Ledger to provide secure identity management for students.
 
@@ -10,34 +10,36 @@ A project that integrates Decentralized Identifiers (DIDs) with XRP Wallets on t
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
-
+  
 ## Introduction
 
-Briefly explain what the project is about, its purpose, and why it was created. Provide an overview of its features and benefits.
+The project is about Digitl Identity linked with an XRP Wallet. 
 
 ## Features
 
-List the key features of your project. For example:
 - Integration of DIDs with XRP Wallets.
 - Secure identity management for students.
-- [Add more features here]
+  
 
 ## Getting Started
 
-Explain how to get started with your project. Include instructions for setting up the environment, installing dependencies, and running the project.
+Setting up the environment, installing dependencies, and running the project.
+
+1. Generate a DID: You'll need to generate a DID. A DID is a unique identifier that's associated with a person, organization, or device. 
+
+2. Create a Verifiable Credential: A verifiable credential is a piece of information that can be used to prove claims about a DID. In this case, it could be a proof of ownership of an XRP wallet.
+
+3. Interact with XRP Ledger: To link the DID to an XRP wallet, you'll need to interact with the XRP Ledger. One can do this using the XRP Ledger API. You'll need to create an XRP wallet and associate it with the DID
 
 ### Prerequisites
 
-List any prerequisites that users need to install or have knowledge of before using your project. For example:
 - Node.js and npm installed.
 - XRP Ledger account.
-- [Add more prerequisites here]
+
 
 ### Installation
 
-Provide step-by-step installation instructions. For example:
+
 1. Clone this repository.
+
+#### Project in progress!!
