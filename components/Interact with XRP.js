@@ -2,10 +2,10 @@ const XrplClient = require('xrpl.js').XrplClient;
 
 async function checkXRPBalance(xrpWallet) {
   // Replace with your XRP Wallet's secret key
-  const xrpSecret = 'rXXXXXXXXXXXXXXXXX...'; // Replace with the secret key for your XRP wallet
+  const xrpSecret = 'sXXXXXXXXXXXXXXXXX...'; // Replace with the secret key for your XRP wallet
 
   // Connect to the XRP Ledger server (you can use a different server URL)
-  const client = new XrplClient('wss://s1.ripple.com');
+  const client = new XrplClient('wss://s.altnet.rippletest.net:51233/');
 
   try {
     await client.connect();
@@ -26,4 +26,4 @@ async function checkXRPBalance(xrpWallet) {
 }
 
 // Replace 'your-xrp-wallet-address' with your actual XRP wallet address
-checkXRPBalance('your-xrp-wallet-address');
+checkXRPBalance('rxxxxxxxxxxxxxxxxxxxxx...');
