@@ -25,7 +25,7 @@ function App() {
               An all-in-one digital identity solution for issuing and managing student ID cards. Perfect for time, attendance register, and identification verification.
             </p>
             <button className="bg-gradient-to-r from-orange-600 to-purple-600 py-3 px-6 text-lg rounded-md w-48">
-              Learn More
+               <a href="index.html" style={{ color: 'white', textDecoration: 'none' }}>Learn More</a>   
             </button>
           </div>
         </div>
