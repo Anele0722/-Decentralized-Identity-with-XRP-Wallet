@@ -1,43 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRP and Verifiable Credential Example</title>
+</head>
+<body>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>DiD</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <h1>XRP Balance Check</h1>
+  <script src="https://cdn.jsdelivr.net/npm/xrpl.js@2.0.1/dist/xrpl.min.js"></script>
+  <script>
+    async function checkXRPBalance(xrpWallet) {
+      // Replace with your XRP Wallet's secret key
+      const xrpSecret = 'sXXXXXXXXXXXXXXXXX...'; // Replace with the secret key for your XRP wallet
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+      // Connect to the XRP Ledger server (you can use a different server URL)
+      const client = new XrplClient('wss://s.altnet.rippletest.net:51233/');
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+      try {
+        await client.connect();
+
+        // Generate an XRP address from the secret key
+        const xrpAddress = client.wallet.deriveAddress(xrpSecret);
+
+        // Get the XRP balance
+        const xrpBalance = await client.getBalance(xrpAddress);
+
+        // Display the results
+        document.getElementById('xrpResult').innerHTML = `XRP Wallet Address: ${xrpAddress}<br>XRP Balance: ${xrpBalance} XRP`;
+      } catch (error) {
+        console.error('Error interacting with XRP Ledger:', error);
+      } finally {
+        await client.disconnect();
+      }
+    }
+  </script>
+  <button onclick="checkXRPBalance('rxxxxxxxxxxxxxxxxxxxxx...')">Check XRP Balance</button>
+  <div id="xrpResult"></div>
+
+  <h1>Create Verifiable Credential</h1>
+  <script src="https://cdn.jsdelivr.net/npm/vc-js@3.3.3/dist/vc.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/did-key-ed25519@0.5.0/dist/did-key-ed25519.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsonld-signatures@5.5.0/dist/jsonld-signatures.min.js"></script>
+  <script>
+    async function createVerifiableCredential() {
+      // Replace with your XRP DID
+      const xrpDID = 'did:key:your-xrp-did-id';
+
+      // Replace with the issuer DID and keypair information
+      const issuerDID = xrpDID;
+      const issuerKeyPair = await Ed25519KeyPair.generate();
+
+      // Create a Verifiable Credential
+      const credential = {
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        issuer: issuerDID,
+        issuanceDate: new Date().toISOString(),
+        credentialSubject: {
+          id: xrpDID,
+        },
+      };
+
+      // Sign the Verifiable Credential
+      const signedVC = await vc.issue({
+        credential,
+        suite: new Ed25519Signature2018({ key: issuerKeyPair }),
+        documentLoader: vc.documentLoader,
+      });
+
+      // Display the results
+      document.getElementById('vcResult').innerHTML = 'Verifiable Credential: ' + JSON.stringify(signedVC, null, 2);
+    }
+  </script>
+  <button onclick="createVerifiableCredential()">Create Verifiable Credential</button>
+  <div id="vcResult"></div>
+
+  <h1>Generate XRP DID</h1>
+  <script src="https://cdn.jsdelivr.net/npm/did-method-key@0.5.0/dist/did-method-key.min.js"></script>
+  <script>
+    async function generateXRPDID() {
+      // Generate an Ed25519 key pair for the DID
+      const keyPair = await Ed25519KeyPair.generate();
+      const keyPairId = keyPair.id;
+
+      // Create the DID using the XRP Ledger as the blockchain
+      const did = `did:key:${keyPairId}`;
+
+      // Create a DID document
+      const didDocument = toDIDDocument({
+        didMethod: 'key',
+        keyPair,
+      });
+
+      // Display the results
+      document.getElementById('didResult').innerHTML = `XRP DID: ${did}<br>DID Document: ${JSON.stringify(didDocument, null, 2)}`;
+    }
+  </script>
+  <button onclick="generateXRPDID()">Generate XRP DID</button>
+  <div id="didResult"></div>
+
+</body>
 </html>
