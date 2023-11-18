@@ -41,4 +41,4 @@ Setting up the environment, installing dependencies, and running the project.
 
 1. Clone this repository.
 
-#### Project in progress!!
+
