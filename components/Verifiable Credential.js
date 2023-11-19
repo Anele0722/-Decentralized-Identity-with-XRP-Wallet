@@ -1,37 +1,41 @@
-const vc = require('vc-js');
-const { Ed25519KeyPair } = require('did-key-ed25519');
-const { Ed25519Signature2018 } = require('jsonld-signatures');
+// VerifiableCredential.js
+import React, { useEffect } from 'react';
+import { Ed25519KeyPair } from 'did-key-ed25519';
+import { Ed25519Signature2018 } from 'jsonld-signatures';
+import vc from 'vc-js';
 
-async function createVerifiableCredential() {
-  // Replace with your XRP DID
-  const xrpDID = 'did:key:your-xrp-did-id';
+const VerifiableCredential = () => {
+  useEffect(() => {
+    const createVerifiableCredential = async () => {
+      const keyPair = await Ed25519KeyPair.generate();
+      const issuerDID = `did:key:${keyPair.id}`;
 
-  // Replace with the issuer DID and keypair information
-  const issuerDID = xrpDID;
-  const issuerKeyPair = await Ed25519KeyPair.generate();
+      const credential = {
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        type: ['VerifiableCredential'],
+        issuer: issuerDID,
+        issuanceDate: new Date().toISOString(),
+        credentialSubject: {
+          id: issuerDID,
+        },
+      };
 
-  // Create a Verifiable Credential
-  const credential = {
-    '@context': ['https://www.w3.org/2018/credentials/v1'],
-    type: ['VerifiableCredential'],
-    issuer: issuerDID,
-    issuanceDate: new Date().toISOString(),
-    credentialSubject: {
-      id: xrpDID,
-    },
-  };
+      const signedVC = await vc.issue({
+        credential,
+        suite: new Ed25519Signature2018({ key: keyPair }),
+        documentLoader: vc.documentLoader,
+      });
 
-  // Sign the Verifiable Credential
-  const signedVC = await vc.issue({
-    credential,
-    suite: new Ed25519Signature2018({ key: issuerKeyPair }),
-    documentLoader: vc.documentLoader,
-  });
+      const signedVCJson = JSON.stringify(signedVC, null, 2);
 
-  const signedVCJson = JSON.stringify(signedVC, null, 2);
+      console.log('Verifiable Credential:');
+      console.log(signedVCJson);
+    };
 
-  console.log('Verifiable Credential:');
-  console.log(signedVCJson);
+    createVerifiableCredential();
+  }, []);
+
+  return null; // or render component UI if needed
 }
 
-createVerifiableCredential();
+export default VerifiableCredential;
