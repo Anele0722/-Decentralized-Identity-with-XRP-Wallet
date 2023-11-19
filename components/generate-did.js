@@ -1,25 +1,31 @@
-const { generate, toDIDDocument } = require('did-method-key');
-const { Ed25519KeyPair } = require('did-key-ed25519');
+// GenerateDID.js
+import React, { useEffect } from 'react';
+import { generate, toDIDDocument } from 'did-method-key';
+import { Ed25519KeyPair } from 'did-key-ed25519';
 
-async function generateXRPDID() {
-  // Generate an Ed25519 key pair for the DID
-  const keyPair = await Ed25519KeyPair.generate();
-  const keyPairId = keyPair.id;
+const GenerateDID = () => {
+  useEffect(() => {
+    const generateXRPDID = async () => {
+      const keyPair = await Ed25519KeyPair.generate();
+      const keyPairId = keyPair.id;
 
-  // Create the DID using the XRP Ledger as the blockchain
-  const did = `did:key:${keyPairId}`;
+      const did = `did:key:${keyPairId}`;
+      const didDocument = toDIDDocument({
+        didMethod: 'key',
+        keyPair,
+      });
 
-  // Create a DID document
-  const didDocument = toDIDDocument({
-    didMethod: 'key',
-    keyPair,
-  });
+      const didDocumentJson = JSON.stringify(didDocument, null, 2);
 
-  const didDocumentJson = JSON.stringify(didDocument, null, 2);
+      console.log(`XRP DID: ${did}`);
+      console.log('DID Document:');
+      console.log(didDocumentJson);
+    };
 
-  console.log(`XRP DID: ${did}`);
-  console.log('DID Document:');
-  console.log(didDocumentJson);
+    generateXRPDID();
+  }, []);
+
+  return null; // or render component UI if needed
 }
 
-generateXRPDID();
+export default GenerateDID;
