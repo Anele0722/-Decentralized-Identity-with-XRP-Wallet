@@ -1,29 +1,26 @@
-const XrplClient = require('xrpl.js').XrplClient;
+// XrpBalance.js
+import React, { useEffect, useState } from 'react';
+import XrpJsInteraction from './xrp';
 
-async function checkXRPBalance(xrpWallet) {
-  // Replace with your XRP Wallet's secret key
-  const xrpSecret = 'sXXXXXXXXXXXXXXXXX...'; // Replace with the secret key for your XRP wallet
+const XrpBalance = () => {
+  const [xrpBalance, setXrpBalance] = useState(null);
 
-  // Connect to the XRP Ledger server (you can use a different server URL)
-  const client = new XrplClient('wss://s.altnet.rippletest.net:51233/');
+  useEffect(() => {
+    XrpJsInteraction.checkXRPBalance('your-xrp-wallet-address').then((balance) => {
+      setXrpBalance(balance);
+    });
+  }, []);
 
-  try {
-    await client.connect();
-
-    // Generate an XRP address from the secret key
-    const xrpAddress = client.wallet.deriveAddress(xrpSecret);
-
-    // Get the XRP balance
-    const xrpBalance = await client.getBalance(xrpAddress);
-
-    console.log(`XRP Wallet Address: ${xrpAddress}`);
-    console.log(`XRP Balance: ${xrpBalance} XRP`);
-  } catch (error) {
-    console.error('Error interacting with XRP Ledger:', error);
-  } finally {
-    await client.disconnect();
-  }
+  return (
+    <div>
+      <h3 className="text-2xl font-bold mb-2">XRP Wallet Balance</h3>
+      {xrpBalance !== null ? (
+        <p className="text-lg">Balance: {xrpBalance} XRP</p>
+      ) : (
+        <p className="text-lg">Loading XRP balance...</p>
+      )}
+    </div>
+  );
 }
 
-// Replace 'your-xrp-wallet-address' with your actual XRP wallet address
-checkXRPBalance('rxxxxxxxxxxxxxxxxxxxxx...');
+export default XrpBalance;
