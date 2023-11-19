@@ -28,17 +28,26 @@ Setting up the environment, installing dependencies, and running the project.
 
 2. Create a Verifiable Credential: A verifiable credential is a piece of information that can be used to prove claims about a DID. In this case, it could be a proof of ownership of an XRP wallet.
 
-3. Interact with XRP Ledger: To link the DID to an XRP wallet, you'll need to interact with the XRP Ledger. One can do this using the XRP Ledger API. You'll need to create an XRP wallet and associate it with the DID
+3. Interact with XRP Ledger: To link the DID to an XRP wallet, you'll need to interact with the XRP Ledger. One can do this using the XRP Ledger API. You'll need to create an XRP wallet and associate it with the DID.
+  
+4. Setting up a server that can interact with the XRP Ledger by creating an XRP Ledger service endpoint.
 
 ### Prerequisites
 
 - Node.js and npm installed.
 - XRP Ledger account.
+- Verifiable Credentials (vc-js)-Library for working with Verifiable Credentials.
+- Decentralized Identifiers (did-key-ed25519)-Library for working with Ed25519 key pairs and DIDs.
+- JSON-LD Signatures (jsonld-signatures)-Library for working with JSON-LD signatures.
+- XRP.js (xrpl.js)-Library for interacting with the XRP Ledger.
+- Express (for XRPL service)-Minimal web server for the XRPL service.
 
 
 ### Installation
 
 
 1. Clone this repository.
+   git clone https://github.com/Anele0722/-Decentralized-Identity-with-XRP-Wallet.git
+
 
 
